@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS clicks (
 `
 
 const insertLinkQuery = `INSERT INTO links (id, url) VALUES ($1, $2)`
+const updateLinkQuery = `UPDATE links SET id = $1, url = $2 WHERE id = $1`
 const insertLinkWithExpireQuery = `INSERT INTO links (id, url, expires_at) VALUES ($1, $2, $3)`
 const selectLinkQuery = `SELECT id, url, expires_at FROM links WHERE id = $1 AND deleted_at is NULL AND (expires_at is NULL OR expires_at < CURRENT_TIMESTAMP)`
 const selectLinksQuery = `SELECT id, url, created_at, expires_at FROM links WHERE deleted_at is NULL LIMIT $1 OFFSET $2`

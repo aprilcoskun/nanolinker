@@ -4,8 +4,8 @@ function openEditRow(id) {
     var idId = "#table_id_" + id;
     var urlId = "#table_url_" + id;
 
-    var oldId = $(idId).html();
-    var oldUrl = $(urlId).html();
+    var oldId = $(idId).text();
+    var oldUrl = $(urlId).text();
 
     $(idId).html(toInput(idId, oldId));
     $(urlId).html(toInput(urlId, oldUrl));
@@ -16,12 +16,31 @@ function cancelEditRow(id) {
     var idVal = $("#table_id_" + id + "_input").val();
     var urlVal = $("#table_url_" + id + "_input").val();
 
-    $("#table_id_" + id).html(idVal);
-    $("#table_url_" + id).html(urlVal);
+    $("#table_id_" + id).text(idVal);
+    $("#table_url_" + id).text(urlVal);
     $("#table_actions_" + id).html(editOrDeleteButtons(id));
 }
 
 function saveEditLink(id) {
+    var idVal = $("#table_id_" + id + "_input").val();
+    var urlVal = $("#table_url_" + id + "_input").val();
+    console.log(idVal, urlVal);
+    if (!urlVal || !idVal) {
+        return alert("Empty Value(s)");
+    }
+
+    $.ajax({
+        url: "/v1/link",
+        data: JSON.stringify({id: idVal, url: urlVal}),
+        contentType: "application/json",
+        type: "PUT",
+        success: function success() {
+            location.href = "/v1";
+        },
+        error: function error(data, status, err) {
+            alert(err);
+        }
+    });
 }
 
 function saveLink() {

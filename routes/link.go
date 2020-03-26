@@ -53,6 +53,17 @@ func deleteLink(c *gin.Context) {
 	c.String(http.StatusOK, "link deleted")
 }
 
-func updateLink(c *gin.Context) {
+func editLink(c *gin.Context) {
+	var cachedLink models.CachedLink
+	if err := c.ShouldBind(&cachedLink); err != nil {
+		c.String(http.StatusBadRequest, err.Error())
+		return
+	}
 
+	err := db.UpdateLink(cachedLink)
+	if err != nil {
+		c.String(http.StatusInternalServerError, err.Error())
+		return
+	}
+	c.String(http.StatusOK, "link updated")
 }

@@ -30,6 +30,6 @@ func InitRoutes(router *gin.Engine) {
 	v1.POST("/configure", configuration)
 
 	v1.POST("/link", createLink)
-	v1.PUT("/link", updateLink)
+	v1.PUT("/link", editLink)
 	v1.DELETE("/link/:id", deleteLink)
 }

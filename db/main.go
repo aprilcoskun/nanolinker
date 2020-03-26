@@ -73,6 +73,24 @@ func SaveLink(link models.CachedLink) error {
 	return isSingleRowAffected(result)
 }
 
+func UpdateLink(link models.CachedLink) error {
+	result, err := db.Exec(updateLinkQuery, link.ID, link.Url)
+	if err != nil {
+		return err
+	}
+
+	// Generate ID
+	if link.ID == "" {
+		link.ID, err = shortid.Generate()
+		if err != nil {
+			return err
+		}
+	}
+
+	linkCache.Set(&link)
+	return isSingleRowAffected(result)
+}
+
 func InsertClick(click *models.Click) (err error) {
 	_, err = db.Exec(insertClick, click.LinkID, click.Ip, click.Referer, click.UserAgent)
 	if err != nil {
