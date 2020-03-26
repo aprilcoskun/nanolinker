@@ -1,0 +1,35 @@
+.ui.attached.header {
+    background: #f0f0f0;
+}
+
+.center-text {
+    text-align: center;
+}
+
+#sign_in_form, #config_form {
+    margin: auto;
+}
+
+#sign_in_form > .inline.field > input,
+#config_form > .inline.field > input,
+#sign_in_form > .inline.field > label,
+#config_form > .inline.field > label {
+    width: 100% !important;
+}
+
+body ::-webkit-scrollbar {
+    width: 6px;
+}
+
+nav {
+    height: 50px;
+}
+
+.main-content {
+    margin-top: 20px;
+    padding: 24px;
+}
+
+.blue-text {
+    color: rgb(33, 133, 208);
+}

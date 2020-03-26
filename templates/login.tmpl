@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+{{template "head" "Login"}}
+<body>
+<div class="main-content">
+    <div class="ui grid middle aligned center aligned">
+        <div>
+            <h4 class="ui top attached header center-text">
+                Log In To Nano Linker
+            </h4>
+            <div class="ui attached segment">
+                <form id="sign_in_form" class="ui form">
+                    <div class="required inline field">
+                        <label for="sign_in_username">Username</label>
+                        <input
+                                id="sign_in_username"
+                                name="username"
+                                type="text"
+                                autocomplete="on"
+                                autofocus
+                                required
+                        />
+                    </div>
+
+                    <div class="required inline field">
+                        <label for="sign_in_password">Password</label>
+                        <input
+                                id="sign_in_password"
+                                name="password"
+                                type="password"
+                                autocomplete="off"
+                                required
+                        />
+                    </div>
+
+                    <div class="inline field">
+                        <label for="sign_in_remember_me"></label>
+                        <div class="ui checkbox">
+                            <input
+                                    id="sign_in_remember_me"
+                                    name="remember_me"
+                                    type="checkbox"
+                            /><label>Remember Me</label>
+                        </div>
+                    </div>
+
+                    <div class="inline field">
+                        <label></label>
+                        <button class="ui green button" type="submit">
+                            Log In
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script
+        src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.4/dist/semantic.min.js"
+        integrity="sha256-WTQFsw74IXBZWoXA8AnKpma22rW8qdBQvbiMgDEpKew="
+        crossorigin="anonymous"
+></script>
+<script src="/public/js/login.js"></script>
+</body>
+</html>

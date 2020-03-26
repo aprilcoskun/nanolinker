@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+{{template "head" "Home"}}
+<body>
+<nav class="ui top fixed inverted menu">
+    <div class="left menu">
+        <a href="#" class="header item">
+            Linker
+        </a>
+    </div>
+
+    <div class="right menu">
+        <a href="#" class="item">
+            <i class="wrench icon"></i>
+            Settings</a
+        >
+        <a href="#" class="item">
+            <i class="sign out icon"></i>
+            Logout
+        </a>
+    </div>
+</nav>
+<div class="main-content">
+    <div class="ui three column grid padded">
+        <div class="column center aligned">
+            <div class="ui teal statistic">
+                <div class="value">5,550</div>
+                <div class="label">Total Clicks</div>
+            </div>
+        </div>
+        <div class="column center aligned">
+            <div class="ui purple statistic">
+                <div class="value">{{ .linksLength}}</div>
+                <div class="label">Total Links</div>
+            </div>
+        </div>
+        <div class="column center aligned">
+            <div class="ui green statistic">
+                <div class="value">800</div>
+                <div class="label">Unique Visitors</div>
+            </div>
+        </div>
+    </div>
+    <div class="ui divider"></div>
+    <div class="ui grid stackable padded">
+        <div class="column">
+            <div class="ui form">
+                <div class="fields">
+                    <div class="seven wide field">
+                        <label for="new_id"></label>
+                        <input type="url" id="new_url" name="new_url" placeholder="URL To Redirect"/>
+                    </div>
+                    <div class="seven wide field">
+                        <label></label>
+                        <input type="text" id="new_id" name="new_id" placeholder="Leave Empty for Random ID" required/>
+                    </div>
+                    <div class="two wide field">
+                        <label for="new_url"></label>
+                        <button class="ui green button" onclick="saveLink()">
+                            Save New Link
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <table class="ui celled table">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Url</th>
+                    <th>Total Clicks</th>
+                    <th>Created At</th>
+                    <th>Expires At</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                {{range .links }}
+                    <tr id="{{.ID}}">
+                        <td id="table_id_{{.ID}}">{{.ID}}</td>
+                        <td class="blue-text" id="table_url_{{.ID}}">{{.Url}}</td>
+                        <td>0</td>
+                        <td>{{.CreatedAt}}</td>
+                        <td id="table_expired_at_{{.ID}}">{{if .ExpiredAt.Valid}}{{.ExpiredAt.Time}}{{else}}<i>not
+                                set</i>{{end}}</td>
+
+                        <td id="table_actions_{{.ID}}">
+                            <div class="ui buttons">
+                                <button class="ui icon olive button" onclick="openEditRow('{{.ID}}')"><i
+                                            class="pen icon"></i>Edit
+                                </button>
+                                <button class="ui icon red button" onclick="deleteRow('{{.ID}}')"><i
+                                            class="trash alternate icon"></i>Delete
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                {{end}}
+            </table>
+        </div>
+    </div>
+</div>
+<div class="ui small basic modal front transition hidden">
+    <div class="ui icon header">
+        <i class="trash alternate red outline icon"></i>
+        Delete Link
+    </div>
+    <div class="content">
+        <p>Are you sure about deleting this link?</p>
+    </div>
+    <div class="actions">
+        <div class="ui red basic cancel inverted button"><i class="remove icon"></i>No</div>
+        <div class="ui green ok inverted button"><i class="checkmark icon"></i>Yes</div>
+    </div>
+</div>
+<script
+        src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.4/dist/semantic.min.js"
+        integrity="sha256-WTQFsw74IXBZWoXA8AnKpma22rW8qdBQvbiMgDEpKew="
+        crossorigin="anonymous"
+></script>
+<script src="/public/js/app.js"></script>
+</body>
+</html>
