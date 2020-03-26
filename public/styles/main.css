@@ -22,11 +22,11 @@ body ::-webkit-scrollbar {
 }
 
 nav {
-    height: 50px;
+    height: 48px;
 }
 
 .main-content {
-    margin-top: 20px;
+    margin-top: 24px;
     padding: 24px;
 }
 

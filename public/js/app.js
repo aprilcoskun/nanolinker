@@ -1,17 +1,12 @@
 "use strict";
 
-$(function () {
-    $('#new_expires_at')
-        .calendar({
-            minDate: new Date()
-        });
-});
-
 function openEditRow(id) {
     var idId = "#table_id_" + id;
     var urlId = "#table_url_" + id;
-    var oldId = $("#table_id_" + id).html();
-    var oldUrl = $("#table_url_" + id).html();
+
+    var oldId = $(idId).html();
+    var oldUrl = $(urlId).html();
+
     $(idId).html(toInput(idId, oldId));
     $(urlId).html(toInput(urlId, oldUrl));
     $("#table_actions_" + id).html(cancelOrSaveButtons(id))
@@ -20,6 +15,7 @@ function openEditRow(id) {
 function cancelEditRow(id) {
     var idVal = $("#table_id_" + id + "_input").val();
     var urlVal = $("#table_url_" + id + "_input").val();
+
     $("#table_id_" + id).html(idVal);
     $("#table_url_" + id).html(urlVal);
     $("#table_actions_" + id).html(editOrDeleteButtons(id));
@@ -31,7 +27,9 @@ function saveEditLink(id) {
 function saveLink() {
     var newId = $("#new_id").val();
     var newUrl = $("#new_url").val();
-    console.log(newId, newUrl);
+    if (!newUrl) {
+        return alert("Empty Link");
+    }
     $.ajax({
         url: "/v1/link",
         data: JSON.stringify({id: newId, url: newUrl}),
@@ -46,8 +44,23 @@ function saveLink() {
     });
 }
 
-function deleteRow(id) {
-    $('.basic.modal').modal('setting', 'closable', false).modal('show');
+function openDeleteModal(id) {
+    $('.basic.modal').modal("setting", "closeable", false).modal("show");
+    $('#delete_button').data("id", id);
+}
+
+function deleteRow() {
+    var id = $('#delete_button').data("id");
+    $.ajax({
+        url: "/v1/link/" + id,
+        type: "DELETE",
+        success: function success() {
+            location.href = "/v1";
+        },
+        error: function error(data, status, err) {
+            alert(err);
+        }
+    })
 }
 
 function toInput(id, val) {
@@ -57,13 +70,20 @@ function toInput(id, val) {
 function cancelOrSaveButtons(id) {
     return '<div class="ui buttons">' +
         '<button class="ui green inverted button"  onclick="saveEditLink(\'' + id + '\')"><i class="check icon"></i>Save</button>' +
-        '<button class="ui red  inverted button" onclick="cancelEditRow(\'' + id + '\')"><i class="close icon"></i>Cancel</button>' +
+        '<button class="ui red inverted button" onclick="cancelEditRow(\'' + id + '\')"><i class="close icon"></i>Cancel</button>' +
         '</div>';
 }
 
 function editOrDeleteButtons(id) {
     return '<div class="ui buttons">' +
         '<button class="ui icon olive button" onclick="openEditRow(\'' + id + '\')"><i class="pen icon"></i>Edit</button>' +
-        '<button class="ui icon red button" onclick="deleteRow(\'' + id + '\')"><i class="trash alternate icon"></i>Delete</button>' +
+        '<button class="ui icon red button" onclick="openDeleteModal(\'' + id + '\')"><i class="trash alternate icon"></i>Delete</button>' +
         '</div>';
 }
+
+$(function () {
+    $('.created-at').each(function (index, element) {
+        var textDate = $(this).text();
+        $(this).text(new Date(textDate).toLocaleString())
+    });
+});

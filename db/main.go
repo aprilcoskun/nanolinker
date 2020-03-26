@@ -36,7 +36,13 @@ func Configure(configData *models.ConfigureUserData) (err error) {
 		err = ErrAlreadyConfigured
 		return
 	}
-	_, err = db.Exec(`INSERT INTO config (id, admin_username, admin_password) VALUES (1, $1, $2)`, configData.Username, hashPassword(configData.Password))
+
+	// Hash passwords with bcrypt(default cost = 10) algorithm before storing them in database.
+	hashedP, err := bcrypt.GenerateFromPassword([]byte(configData.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return
+	}
+	_, err = db.Exec(`INSERT INTO config (id, admin_username, admin_password) VALUES (1, $1, $2)`, configData.Username, hashedP)
 
 	return
 }
@@ -138,16 +144,6 @@ func AuthUser(configData *models.ConfigureUserData) error {
 	}
 
 	return nil
-}
-
-// Hash passwords with bcrypt(default cost = 10) algorithm before storing them in database.
-func hashPassword(password string) string {
-	hashedP, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
-	if err != nil {
-		logger.Error(err)
-		return ""
-	}
-	return string(hashedP)
 }
 
 // Check if only one row is affected when dealing with user operations in database
