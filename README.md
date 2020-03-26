@@ -4,15 +4,15 @@ Self-hosted URL shortener with Golang and SQLite3.
 
 ## TODO
 
- - Custom Links
- - Multi User mode
- - Support for other databases
- - Link Grouping
- - Setting password for links.
- - More Tests
- - Documents(or better README)
- - Docker image
- - Browser Extension for quick linking
+ - [x] Custom Links
+ - [ ] Multi User mode
+ - [ ] Support for other databases
+ - [ ] Link Grouping
+ - [ ] Setting password for links.
+ - [ ] More Tests
+ - [ ] Documents(or better README)
+ - [ ] Docker image
+ - [ ] Browser Extension for quick linking
 
 ## Motivation
 
