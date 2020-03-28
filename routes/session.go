@@ -4,7 +4,7 @@ import (
 	"github.com/aprilcoskun/nanolinker/models"
 	"github.com/aprilcoskun/nanolinker/utils/logger"
 	"github.com/aprilcoskun/sessions"
-	"github.com/aprilcoskun/sessions/memstore"
+	"github.com/aprilcoskun/sessions/cookie"
 	"github.com/gin-gonic/gin"
 	"os"
 )
@@ -24,7 +24,7 @@ func initSessionStore(router *gin.Engine) {
 		secret = "nanolinker_secret"
 	}
 
-	sessionStore = memstore.NewStore([]byte(secret))
+	sessionStore = cookie.NewStore([]byte(secret))
 	router.Use(sessions.Sessions("nanolinker-api", sessionStore))
 	return
 }

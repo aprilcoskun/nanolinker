@@ -6,7 +6,7 @@ function openEditRow(id) {
 
     var oldId = $(idId).text();
     var oldUrl = $(urlId).text();
-
+    $(idId).data("old", oldId);
     $(idId).html(toInput(idId, oldId));
     $(urlId).html(toInput(urlId, oldUrl));
     $("#table_actions_" + id).html(cancelOrSaveButtons(id))
@@ -16,21 +16,26 @@ function cancelEditRow(id) {
     var idVal = $("#table_id_" + id + "_input").val();
     var urlVal = $("#table_url_" + id + "_input").val();
 
-    $("#table_id_" + id).text(idVal);
-    $("#table_url_" + id).text(urlVal);
+    $("#table_id_" + id).html("<a href='/l/" + idVal + "'>" + idVal + "</a>");
+    $("#table_url_" + id).html("<a href='" + urlVal + "'>" + urlVal + "</a>");
     $("#table_actions_" + id).html(editOrDeleteButtons(id));
 }
 
 function saveEditLink(id) {
     var idVal = $("#table_id_" + id + "_input").val();
     var urlVal = $("#table_url_" + id + "_input").val();
-    console.log(idVal, urlVal);
+    var oldId = $("#table_id_" + id).data("old");
+
     if (!urlVal || !idVal) {
         return alert("Empty Value(s)");
     }
 
+    if (!oldId) {
+        return alert("Old Id not found!!!!")
+    }
+
     $.ajax({
-        url: "/v1/link",
+        url: "/v1/link/" + oldId,
         data: JSON.stringify({id: idVal, url: urlVal}),
         contentType: "application/json",
         type: "PUT",
@@ -58,7 +63,7 @@ function saveLink() {
             location.href = "/v1";
         },
         error: function error(data, status, err) {
-            alert(err);
+            return alert(err);
         }
     });
 }
@@ -80,6 +85,10 @@ function deleteRow() {
             alert(err);
         }
     })
+}
+
+function toLink(val) {
+    return "<a href='" + val + "'>" + val + "</a>";
 }
 
 function toInput(id, val) {

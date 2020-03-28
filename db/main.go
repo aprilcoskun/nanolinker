@@ -14,9 +14,9 @@ import (
 var db *sqlx.DB
 
 func init() {
-	db = sqlx.MustOpen("sqlite3", "nanolinker.db")
+	db = sqlx.MustOpen("sqlite3", "nanolinker.db?_foreign_keys=on")
 	db.MustExec(schema)
-	linkCache = &Cache{items: make(map[string]*models.CachedLink)}
+	db.MustExec("PRAGMA foreign_keys = ON")
 
 	logger.Info("Database Initialized")
 }
@@ -69,12 +69,12 @@ func SaveLink(link models.CachedLink) error {
 	if err != nil {
 		return err
 	}
-	linkCache.Set(&link)
+
 	return isSingleRowAffected(result)
 }
 
-func UpdateLink(link models.CachedLink) error {
-	result, err := db.Exec(updateLinkQuery, link.ID, link.Url)
+func UpdateLink(oldID string, link models.CachedLink) error {
+	result, err := db.Exec(updateLinkQuery, link.ID, link.Url, oldID)
 	if err != nil {
 		return err
 	}
@@ -87,7 +87,6 @@ func UpdateLink(link models.CachedLink) error {
 		}
 	}
 
-	linkCache.Set(&link)
 	return isSingleRowAffected(result)
 }
 
@@ -100,7 +99,7 @@ func InsertClick(click *models.Click) (err error) {
 	return
 }
 
-func GetLinks(limit, offset int) (links []models.Link, count int, err error) {
+func GetLinks(limit, offset int) (links []models.LinkWithStats, count int, err error) {
 	err = db.Get(&count, selectLinkCount)
 	if err != nil {
 		logger.Error(err)
@@ -115,18 +114,11 @@ func GetLinks(limit, offset int) (links []models.Link, count int, err error) {
 }
 
 func GetLink(id string) (link models.CachedLink, err error) {
-	cachedLink, found := linkCache.Get(id)
-	if found {
-		link = *cachedLink
-		return
-	}
 	err = db.Get(&link, selectLinkQuery, id)
 	if err == sql.ErrNoRows {
 		err = ErrLinkNotFound
 		return
 	}
-
-	linkCache.Set(&link)
 
 	return
 }

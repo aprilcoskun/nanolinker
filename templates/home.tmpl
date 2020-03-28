@@ -2,7 +2,7 @@
 <html lang="en">
 {{template "head" "Home"}}
 <body>
-<nav class="ui top fixed inverted menu">
+<nav class="ui top fixed menu">
     <div class="left menu">
         <a href="#" class="header item">
             Home
@@ -48,21 +48,21 @@
                 <tr>
                     <th>Id</th>
                     <th>Url</th>
-                    {{/*                    <th>Total Clicks</th>*/}}
+                    <th>Total Clicks</th>
+                    <th>Unique Visitors</th>
                     <th>Created At</th>
-                    <th>Expires At</th>
+                    {{/*                    <th>Expires At</th>*/}}
                     <th>Actions</th>
                 </tr>
                 </thead>
                 {{range .links }}
                     <tr id="{{.ID}}">
-                        <td id="table_id_{{.ID}}">{{.ID}}</td>
-                        <td class="blue-text" id="table_url_{{.ID}}">{{.Url}}</td>
-                        {{/*                        <td>0</td>*/}}
+                        <td id="table_id_{{.ID}}"><a href="/l/{{.ID}}">{{.ID}}</a></td>
+                        <td id="table_url_{{.ID}}"><a href="{{.Url}}">{{.Url}}</a></td>
+                        <td>{{.TotalClicks}}</td>
+                        <td>{{.UniqueVisitors}}</td>
                         <td class="created-at">{{.CreatedAt.Format "2006-01-02T15:04:05.9999Z07:00"}}</td>
-                        <td id="table_expired_at_{{.ID}}">{{if .ExpiredAt.Valid}}{{.ExpiredAt.Time}}{{else}}<i>not
-                                set</i>{{end}}</td>
-
+                        {{/*                        <td id="table_expired_at_{{.ID}}">{{if .ExpiredAt.Valid}}{{.ExpiredAt.Time}}{{else}}<i>not set</i>{{end}}</td>*/}}
                         <td id="table_actions_{{.ID}}">
                             <div class="ui buttons">
                                 <button class="ui icon olive button" onclick="openEditRow('{{.ID}}')"><i

@@ -22,7 +22,7 @@ $(function () {
             contentType: "application/json",
             type: "POST",
             success: function success() {
-                location.href = "/v1";
+                location.href = "/v1/";
             },
             error: function error(data, status, err) {
                 alert(err);

@@ -14,21 +14,20 @@ type Config struct {
 }
 
 type Link struct {
-	ID        string       `db:"id" json:"id"`
-	Url       string       `db:"url" json:"url"`
-	CreatedAt time.Time    `db:"created_at" json:"created_at"`
-	ExpiredAt sql.NullTime `db:"expires_at" json:"expires_at"`
-	UpdatedAt time.Time    `db:"updated_at" json:"updated_at"`
+	ID          string       `db:"id" json:"id"`
+	Url         string       `db:"url" json:"url"`
+	TotalClicks int          `db:"total_clicks" json:"total_clicks"`
+	CreatedAt   time.Time    `db:"created_at" json:"created_at"`
+	ExpiredAt   sql.NullTime `db:"expires_at" json:"expires_at"`
+	UpdatedAt   time.Time    `db:"updated_at" json:"updated_at"`
 }
 
 type LinkWithStats struct {
-	ID             string       `db:"id" json:"id"`
-	Url            string       `db:"url" json:"url"`
-	TotalClicks    int          `db:"total_clicks" json:"total_clicks"`
-	UniqueVisitors int          `db:"unique_visitors" json:"unique_visitors"`
-	CreatedAt      time.Time    `db:"created_at" json:"created_at"`
-	ExpiredAt      sql.NullTime `db:"expires_at" json:"expires_at"`
-	UpdatedAt      time.Time    `db:"updated_at" json:"updated_at"`
+	ID             string    `db:"id" json:"id"`
+	Url            string    `db:"url" json:"url"`
+	TotalClicks    int       `db:"total_clicks" json:"total_clicks"`
+	UniqueVisitors int       `db:"unique_visitors" json:"unique_visitors"`
+	CreatedAt      time.Time `db:"created_at" json:"created_at"`
 }
 
 type Click struct {

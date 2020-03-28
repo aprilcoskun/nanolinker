@@ -15,11 +15,9 @@ func AuthMiddleware(c *gin.Context) {
 		return
 	}
 
-	session := sessions.Default(c)
-	username := session.Get("username")
 	// Check if user exist in session store
-	if username == nil {
-		c.Redirect(http.StatusTemporaryRedirect, "/login")
+	if sessions.Default(c).Get("username") == nil {
+		c.Redirect(http.StatusTemporaryRedirect, "/login/")
 		return
 	}
 

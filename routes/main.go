@@ -17,10 +17,10 @@ func InitRoutes(router *gin.Engine) {
 	router.GET("/configure", configurationPage)
 	router.StaticFS("/public", http.Dir("public/"))
 	router.GET("/l/:link", redirectLink)
+	router.NoRoute(redirectLink)
 
 	// Init Api Routes
 	v1 := router.Group("/v1")
-
 	// Guard Routes
 	v1.Use(utils.AuthMiddleware)
 
@@ -30,6 +30,6 @@ func InitRoutes(router *gin.Engine) {
 	v1.POST("/configure", configuration)
 
 	v1.POST("/link", createLink)
-	v1.PUT("/link", editLink)
+	v1.PUT("/link/:id", editLink)
 	v1.DELETE("/link/:id", deleteLink)
 }

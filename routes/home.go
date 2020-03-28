@@ -16,11 +16,11 @@ func homePage(c *gin.Context) {
 	}
 
 	c.HTML(http.StatusOK, "home.tmpl", &map[string]interface{}{
-		"page":        "url-list",
 		"links":       links,
 		"totalCount":  count,
 		"linksLength": len(links),
 	})
+	return
 }
 
 func redirectHomePage(c *gin.Context) {

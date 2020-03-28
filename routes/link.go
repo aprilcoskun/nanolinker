@@ -6,26 +6,35 @@ import (
 	"github.com/aprilcoskun/nanolinker/utils/logger"
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"time"
 )
 
+func notFoundPage(c *gin.Context) {
+	c.HTML(http.StatusNotFound, "notfound.tmpl", nil)
+}
+
 func redirectLink(c *gin.Context) {
-	link, err := db.GetLink(c.Param("link"))
+	linkId := c.Param("link")
+	if linkId == "" {
+		linkId = c.Request.URL.String()[1:]
+	}
+
+	link, err := db.GetLink(linkId)
 	if err != nil {
-		c.HTML(http.StatusNotFound, "notfound.tmpl", nil)
+		notFoundPage(c)
 		return
 	}
+
 	c.Redirect(http.StatusTemporaryRedirect, link.Url)
-	err = db.InsertClick(&models.Click{
-		LinkID:    link.ID,
-		Ip:        c.ClientIP(),
-		Referer:   c.Request.Referer(),
-		UserAgent: c.Request.UserAgent(),
-		ClickedAt: time.Time{},
-	})
-	if err != nil {
-		logger.Error(err)
-	}
+	//err = db.InsertClick(&models.Click{
+	//	LinkID:    link.ID,
+	//	Ip:        c.ClientIP(),
+	//	Referer:   c.Request.Referer(),
+	//	UserAgent: c.Request.UserAgent(),
+	//	ClickedAt: time.Time{},
+	//})
+	//if err != nil {
+	//	logger.Error(err)
+	//}
 }
 
 func createLink(c *gin.Context) {
@@ -47,6 +56,7 @@ func createLink(c *gin.Context) {
 func deleteLink(c *gin.Context) {
 	err := db.DeleteLink(c.Param("id"))
 	if err != nil {
+		logger.Error(err)
 		c.String(http.StatusInternalServerError, err.Error())
 		return
 	}
@@ -60,8 +70,9 @@ func editLink(c *gin.Context) {
 		return
 	}
 
-	err := db.UpdateLink(cachedLink)
+	err := db.UpdateLink(c.Param("id"), cachedLink)
 	if err != nil {
+		logger.Error(err)
 		c.String(http.StatusInternalServerError, err.Error())
 		return
 	}
