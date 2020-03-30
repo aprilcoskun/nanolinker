@@ -44,5 +44,15 @@ func setSession(c *gin.Context, configData *models.ConfigureUserData) {
 	err := session.Save()
 	if err != nil {
 		logger.Error(err.Error())
+		return
 	}
+	c.SetCookie(
+		"session-status",
+		"valid",
+		sessionOptions.MaxAge,
+		sessionOptions.Path,
+		sessionOptions.Domain,
+		sessionOptions.Secure,
+		false)
+
 }
