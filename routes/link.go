@@ -25,16 +25,15 @@ func redirectLink(c *gin.Context) {
 	}
 
 	c.Redirect(http.StatusTemporaryRedirect, link.Url)
-	//err = db.InsertClick(&models.Click{
-	//	LinkID:    link.ID,
-	//	Ip:        c.ClientIP(),
-	//	Referer:   c.Request.Referer(),
-	//	UserAgent: c.Request.UserAgent(),
-	//	ClickedAt: time.Time{},
-	//})
-	//if err != nil {
-	//	logger.Error(err)
-	//}
+	err = db.InsertClick(&models.Click{
+		LinkID:    link.ID,
+		Ip:        c.ClientIP(),
+		Referer:   c.Request.Referer(),
+		UserAgent: c.Request.UserAgent(),
+	})
+	if err != nil {
+		logger.Error(err)
+	}
 }
 
 func createLink(c *gin.Context) {

@@ -4,28 +4,18 @@
 <body>
 <nav class="ui top fixed menu">
     <div class="left menu">
-        <a href="#" class="header item">
-            Home
-        </a>
-        <a href="#" class="header item">
-            Statics
-        </a>
+        <a href="#" class="header item">Home</a>
+        {{/*        <a href="#" class="header item">Statics</a>*/}}
     </div>
     <div class="right menu">
-        <a href="#" class="item">
-            <i class="wrench icon"></i>
-            Settings</a
-        >
-        <a href="#" class="item">
-            <i class="sign out icon"></i>
-            Logout
-        </a>
+        {{/*        <a href="#" class="item"><i class="wrench icon"></i>Settings</a>*/}}
+        <a href="#" class="item" id="logout"><i class="sign out icon"></i>Logout</a>
     </div>
 </nav>
 <div class="main-content">
     <div class="ui grid stackable padded">
         <div class="column">
-            <div class="ui form">
+            <div class="ui form small">
                 <div class="fields">
                     <div class="seven wide field">
                         <label for="new_id"></label>
@@ -37,8 +27,8 @@
                     </div>
                     <div class="two wide field">
                         <label for="new_url"></label>
-                        <button class="ui green button" onclick="saveLink()">
-                            Save New Link
+                        <button class="ui green small button" onclick="saveLink()">
+                            Save Link
                         </button>
                     </div>
                 </div>
@@ -51,25 +41,26 @@
                     <th>Total Clicks</th>
                     <th>Unique Visitors</th>
                     <th>Created At</th>
-                    {{/*                    <th>Expires At</th>*/}}
                     <th>Actions</th>
                 </tr>
                 </thead>
                 {{range .links }}
-                    <tr id="{{.ID}}">
+                    <tr>
                         <td id="table_id_{{.ID}}"><a href="/l/{{.ID}}">{{.ID}}</a></td>
                         <td id="table_url_{{.ID}}"><a href="{{.Url}}">{{.Url}}</a></td>
                         <td>{{.TotalClicks}}</td>
                         <td>{{.UniqueVisitors}}</td>
                         <td class="created-at">{{.CreatedAt.Format "2006-01-02T15:04:05.9999Z07:00"}}</td>
-                        {{/*                        <td id="table_expired_at_{{.ID}}">{{if .ExpiredAt.Valid}}{{.ExpiredAt.Time}}{{else}}<i>not set</i>{{end}}</td>*/}}
                         <td id="table_actions_{{.ID}}">
-                            <div class="ui buttons">
-                                <button class="ui icon olive button" onclick="openEditRow('{{.ID}}')"><i
-                                            class="pen icon"></i>Edit
+                            <div class="ui buttons" id="{{.ID}}">
+                                <button class="ui icon teal mini button clip" onclick="copyToClipboard.call(this)">
+                                    <i class="copy icon"></i>
                                 </button>
-                                <button class="ui icon red button" onclick="openDeleteModal('{{.ID}}')"><i
-                                            class="trash alternate icon"></i>Delete
+                                <button class="ui icon olive mini button edit" onclick="openEditRow.call(this)">
+                                    <i class="pen icon"></i>
+                                </button>
+                                <button class="ui icon red mini button delete" onclick="openDeleteModal.call(this)">
+                                    <i class="trash icon"></i>
                                 </button>
                             </div>
                         </td>
@@ -79,7 +70,7 @@
         </div>
     </div>
 </div>
-<div class="ui small basic modal front transition hidden">
+<div class="ui tiny basic modal front transition hidden">
     <div class="ui icon header">
         <i class="trash alternate red outline icon"></i>
         Delete Link
@@ -94,11 +85,7 @@
         </button>
     </div>
 </div>
-<script
-        src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.4/dist/semantic.min.js"
-        integrity="sha256-WTQFsw74IXBZWoXA8AnKpma22rW8qdBQvbiMgDEpKew="
-        crossorigin="anonymous"
-></script>
+<script src="/public/js/semantic.min.js"></script>
 <script src="/public/js/app.js"></script>
 </body>
 </html>

@@ -7,6 +7,7 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	_ "github.com/joho/godotenv/autoload"
+	"github.com/nanmu42/gzip"
 	"os"
 	"strings"
 )
@@ -20,7 +21,14 @@ func main() {
 	// Init routes
 	r := gin.New()
 
-	r.Use(logger.Middleware, cors.Default(), utils.SecurityMiddleWare)
+	gzipMiddleware := gzip.NewHandler(gzip.Config{
+		// gzip compression level to use
+		CompressionLevel: 6,
+		// minimum content length to trigger gzip, 8kb
+		MinContentLength: 1024 * 8,
+	}).Gin
+
+	r.Use(logger.Middleware, cors.Default(), utils.SecurityMiddleWare, gzipMiddleware)
 	r.LoadHTMLGlob("templates/*")
 	routes.InitRoutes(r)
 

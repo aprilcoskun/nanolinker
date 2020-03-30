@@ -79,7 +79,7 @@ function saveLink() {
     });
 }
 
-function openDeleteModal(id) {
+function openDeleteModal() {
     var id = this.parentNode.id;
     $('#delete_button').data("id", id);
     $('.basic.modal').modal("setting", "closeable", false).modal("show");
@@ -141,7 +141,7 @@ $(function () {
         $(this).text(new Date(this.innerText).toLocaleString())
     });
 
-    $("#logout").on('click', function (e) {
+    $("#logout").on('click', function () {
         //invalidate session cookie
         document.cookie = "session-status=invalid; path=/";
         //reload page

@@ -3,10 +3,12 @@ package routes
 import (
 	"github.com/aprilcoskun/nanolinker/utils"
 	"github.com/gin-gonic/gin"
-	"net/http"
+	"github.com/gobuffalo/packr/v2"
 )
 
 func InitRoutes(router *gin.Engine) {
+	box := packr.New("public", "../public/")
+
 	router.StaticFile("/favicon.ico", "public/favicon.ico")
 	// Init Session Store
 	initSessionStore(router)
@@ -15,7 +17,7 @@ func InitRoutes(router *gin.Engine) {
 	router.GET("/", redirectHomePage)
 	router.GET("/login", logInPage)
 	router.GET("/configure", configurationPage)
-	router.StaticFS("/public", http.Dir("public/"))
+	router.StaticFS("/public", box)
 	router.GET("/l/:link", redirectLink)
 	router.NoRoute(redirectLink)
 

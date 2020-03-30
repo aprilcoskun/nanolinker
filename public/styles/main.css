@@ -37,3 +37,23 @@ nav {
 .blue-text {
     color: rgb(33, 133, 208);
 }
+
+/* Larger than mobile screen */
+/*@media (min-width: 40.0rem) {*/
+
+/*}*/
+
+/* Larger than tablet screen */
+@media (min-width: 64.0rem) {
+    .clip:after {
+        content: " Copy";
+    }
+
+    .delete:after {
+        content: " Delete";
+    }
+
+    .edit:after {
+        content: " Edit";
+    }
+}
