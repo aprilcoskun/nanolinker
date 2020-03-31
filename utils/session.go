@@ -1,4 +1,4 @@
-package routes
+package utils
 
 import (
 	"github.com/aprilcoskun/nanolinker/models"
@@ -9,27 +9,24 @@ import (
 	"os"
 )
 
-var sessionStore sessions.Store
-var defaultSessionOptions sessions.Options
-
-func initSessionStore(router *gin.Engine) {
-	secret := os.Getenv("SESSION_KEY")
-	defaultSessionOptions = sessions.Options{
-		MaxAge:   60 * 60 * 24 * 7,
-		HttpOnly: true,
-		Path:     "/",
-	}
-	// If secret is not set in env variables, use default
-	if secret == "" {
-		secret = "nanolinker_secret"
-	}
-
-	sessionStore = cookie.NewStore([]byte(secret))
-	router.Use(sessions.Sessions("nanolinker-api", sessionStore))
-	return
+//var sessionStore cookie.Store
+var defaultSessionOptions = sessions.Options{
+	MaxAge:   60 * 60 * 24 * 7,
+	HttpOnly: true,
+	Path:     "/",
 }
 
-func setSession(c *gin.Context, configData *models.ConfigureUserData) {
+func SessionMiddleware() gin.HandlerFunc {
+	sessionKey := os.Getenv("SESSION_KEY")
+
+	// If secret is not set in env variables, use default
+	if sessionKey == "" {
+		sessionKey = "nanolinker_secret"
+	}
+	return sessions.Sessions("nanolinker-api", cookie.NewStore([]byte(sessionKey)))
+}
+
+func SetSession(c *gin.Context, configData *models.ConfigureUserData) {
 	session := sessions.Default(c)
 	session.Set("username", configData.Username)
 	sessionOptions := defaultSessionOptions
@@ -54,5 +51,4 @@ func setSession(c *gin.Context, configData *models.ConfigureUserData) {
 		sessionOptions.Domain,
 		sessionOptions.Secure,
 		false)
-
 }

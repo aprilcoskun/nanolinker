@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"github.com/aprilcoskun/nanolinker/db"
 	"github.com/aprilcoskun/sessions"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -17,7 +18,7 @@ func AuthMiddleware(c *gin.Context) {
 
 	statusCookie, err := c.Cookie("session-status")
 	// Check if user exist in session store
-	if err != nil || statusCookie != "valid" || sessions.Default(c).Get("username") == nil {
+	if err != nil || statusCookie != "valid" || sessions.Default(c).Get("username") == nil || !db.IsConfigured() {
 		c.Redirect(http.StatusTemporaryRedirect, "/login/")
 		return
 	}

@@ -3,28 +3,29 @@ package routes
 import (
 	"github.com/aprilcoskun/nanolinker/db"
 	"github.com/aprilcoskun/nanolinker/models"
+	"github.com/aprilcoskun/nanolinker/utils"
 	"github.com/aprilcoskun/nanolinker/utils/logger"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
-func logInPage(c *gin.Context) {
+func LogInPage(c *gin.Context) {
 	if !db.IsConfigured() {
 		c.Redirect(http.StatusTemporaryRedirect, "/configure")
 		return
 	}
-	c.HTML(http.StatusOK, "login.tmpl", nil)
+	c.HTML(http.StatusOK, "login", nil)
 }
 
-func configurationPage(c *gin.Context) {
+func ConfigurationPage(c *gin.Context) {
 	if db.IsConfigured() {
 		c.Redirect(http.StatusTemporaryRedirect, "/login")
 		return
 	}
-	c.HTML(http.StatusOK, "configure.tmpl", nil)
+	c.HTML(http.StatusOK, "configure", nil)
 }
 
-func logIn(c *gin.Context) {
+func LogIn(c *gin.Context) {
 	if !db.IsConfigured() {
 		c.Redirect(http.StatusTemporaryRedirect, "/configure")
 		return
@@ -47,13 +48,12 @@ func logIn(c *gin.Context) {
 		c.String(http.StatusForbidden, err.Error())
 		return
 	}
-
-	setSession(c, &configData)
+	utils.SetSession(c, &configData)
 
 	c.String(http.StatusOK, "user logged in")
 }
 
-func configuration(c *gin.Context) {
+func Configuration(c *gin.Context) {
 	var configData models.ConfigureUserData
 	if err := c.ShouldBind(&configData); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -70,8 +70,8 @@ func configuration(c *gin.Context) {
 		return
 	}
 
-	setSession(c, &configData)
+	utils.SetSession(c, &configData)
 
 	logger.Info("First Configuration Completed")
-	c.String(http.StatusOK, "first configuration completed")
+	c.String(http.StatusOK, "first Configuration completed")
 }

@@ -1,77 +1,73 @@
-<!DOCTYPE html>
-<html lang="en">
-{{template "head" "Configuration"}}
-<body>
-<div class="main-content">
-  <div class="ui grid middle aligned center aligned">
-    <div>
-      <h4 class="ui top attached header center-text">
-        Admin Configuration
-      </h4>
-      <div class="ui attached segment">
-        <form id="config_form" class="ui form">
-          <div class="required inline field">
-            <label for="config_username">Username</label>
-            <input
-                    id="config_username"
-                    name="username"
-                    type="text"
-                    value="admin"
-                    autofocus
-                    required
-            />
-          </div>
-
-          <div class="required inline field">
-            <label for="config_password">Password</label>
-            <input
-                    id="config_password"
-                    name="password"
-                    type="password"
-                    autocomplete="off"
-                    required
-            />
-          </div>
-
-          <div class="required inline field">
-            <label for="config_confirm_password">Confirm Password</label>
-            <input
-                    id="config_confirm_password"
-                    name="config_confirm_password"
-                    type="password"
-                    autocomplete="off"
-                    required
-            />
-          </div>
-
-          <div class="inline field">
-            <label for="config_remember_me"></label>
-            <div class="ui checkbox">
+{{define "configure"}}
+  <!DOCTYPE html>
+  <html lang="en">
+  {{template "head" "Configuration"}}
+  <body>
+  <div class="main-content">
+    <div class="ui grid middle aligned center aligned">
+      <div>
+        <h4 class="ui top attached header center-text">
+          Admin Configuration
+        </h4>
+        <div class="ui attached segment">
+          <form id="config_form" class="ui form">
+            <div class="required inline field">
+              <label for="config_username">Username</label>
               <input
-                      id="config_remember_me"
-                      name="remember_me"
-                      type="checkbox"
-              /><label>Remember Me</label>
+                      id="config_username"
+                      name="username"
+                      type="text"
+                      value="admin"
+                      autofocus
+                      required
+              />
             </div>
-          </div>
 
-          <div class="inline field">
-            <label></label>
-            <button class="ui green button" type="submit">
-              Complete Configuration
-            </button>
-          </div>
-        </form>
+            <div class="required inline field">
+              <label for="config_password">Password</label>
+              <input
+                      id="config_password"
+                      name="password"
+                      type="password"
+                      autocomplete="off"
+                      required
+              />
+            </div>
+
+            <div class="required inline field">
+              <label for="config_confirm_password">Confirm Password</label>
+              <input
+                      id="config_confirm_password"
+                      name="config_confirm_password"
+                      type="password"
+                      autocomplete="off"
+                      required
+              />
+            </div>
+
+            <div class="inline field">
+              <label for="config_remember_me"></label>
+              <div class="ui checkbox">
+                <input
+                        id="config_remember_me"
+                        name="remember_me"
+                        type="checkbox"
+                /><label>Remember Me</label>
+              </div>
+            </div>
+
+            <div class="inline field">
+              <label></label>
+              <button class="ui green button" type="submit">
+                Complete Configuration
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
 </div>
-{{/*<script*/}}
-{{/*        src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.4/dist/semantic.min.js"*/}}
-{{/*        integrity="sha256-WTQFsw74IXBZWoXA8AnKpma22rW8qdBQvbiMgDEpKew="*/}}
-{{/*        crossorigin="anonymous"*/}}
-{{/*></script>*/}}
 <script src="/public/js/configure.js"></script>
 </body>
 </html>
-
+{{end}}

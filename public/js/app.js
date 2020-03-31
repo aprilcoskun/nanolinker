@@ -142,9 +142,9 @@ $(function () {
     });
 
     $("#logout").on('click', function () {
-        //invalidate session cookie
+        // Invalidate session cookie
         document.cookie = "session-status=invalid; path=/";
-        //reload page
+        // Reload page
         location.href = "/login";
     })
 });

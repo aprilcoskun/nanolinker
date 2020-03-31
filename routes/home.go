@@ -4,25 +4,42 @@ import (
 	"github.com/aprilcoskun/nanolinker/db"
 	"github.com/aprilcoskun/nanolinker/utils/logger"
 	"github.com/gin-gonic/gin"
+	"math"
 	"net/http"
+	"strconv"
 )
 
-func homePage(c *gin.Context) {
-	links, count, err := db.GetLinks(20, 0)
+func HomePage(c *gin.Context) {
+	pageCount := 0
+	limit := 20
+	offset := 0
+	pageNumber, err := strconv.Atoi(c.Query("page"))
+	if err == nil {
+		offset = pageNumber * limit
+	} else {
+		pageNumber = 0
+	}
+	links, count, err := db.GetLinks(limit, offset)
 	if err != nil {
 		logger.Error(err)
 		c.String(http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	c.HTML(http.StatusOK, "home.tmpl", &map[string]interface{}{
+	if count > limit {
+		pageCount = int(math.Ceil(float64(len(links)) / float64(limit)))
+	}
+
+	c.HTML(http.StatusOK, "home", &gin.H{
 		"links":       links,
 		"totalCount":  count,
 		"linksLength": len(links),
+		"pageCount":   pageCount,
+		"pageNumber":  pageNumber,
 	})
 	return
 }
 
-func redirectHomePage(c *gin.Context) {
+func RedirectHomePage(c *gin.Context) {
 	c.Redirect(http.StatusMovedPermanently, "/v1")
 }

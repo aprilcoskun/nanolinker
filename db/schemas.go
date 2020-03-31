@@ -57,7 +57,7 @@ WHERE deleted_at IS NULL ORDER BY created_at DESC LIMIT $1 OFFSET $2`
 const insertClick = `INSERT INTO clicks (link_id, ip, referer, user_agent) VALUES ($1, $2, $3, $4)`
 const selectConfig = `SELECT admin_username, admin_password, created_at, updated_at FROM config LIMIT 1`
 const isConfigExistsQuery = `SELECT count(*) FROM config LIMIT 1`
-const selectLinkCount = `SELECT count(*) FROM links`
+const selectLinkCount = `SELECT count(*) FROM links WHERE deleted_at IS NULL`
 
 const updateAdminNameQuery = `UPDATE config SET admin_username = $1`
 const updateAdminPasswordQuery = `UPDATE config SET admin_password = $1`

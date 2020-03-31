@@ -8,11 +8,11 @@ import (
 	"net/http"
 )
 
-func notFoundPage(c *gin.Context) {
-	c.HTML(http.StatusNotFound, "notfound.tmpl", nil)
+func NotFoundPage(c *gin.Context) {
+	c.HTML(http.StatusNotFound, "notfound", nil)
 }
 
-func redirectLink(c *gin.Context) {
+func RedirectLink(c *gin.Context) {
 	linkId := c.Param("link")
 	if linkId == "" {
 		linkId = c.Request.URL.String()[1:]
@@ -20,7 +20,7 @@ func redirectLink(c *gin.Context) {
 
 	link, err := db.GetLink(linkId)
 	if err != nil {
-		notFoundPage(c)
+		NotFoundPage(c)
 		return
 	}
 
@@ -36,7 +36,7 @@ func redirectLink(c *gin.Context) {
 	}
 }
 
-func createLink(c *gin.Context) {
+func CreateLink(c *gin.Context) {
 	var cachedLink models.CachedLink
 	if err := c.ShouldBind(&cachedLink); err != nil {
 		c.String(http.StatusBadRequest, err.Error())
@@ -52,7 +52,7 @@ func createLink(c *gin.Context) {
 	c.String(http.StatusOK, "link saved")
 }
 
-func deleteLink(c *gin.Context) {
+func DeleteLink(c *gin.Context) {
 	err := db.DeleteLink(c.Param("id"))
 	if err != nil {
 		logger.Error(err)
@@ -62,7 +62,7 @@ func deleteLink(c *gin.Context) {
 	c.String(http.StatusOK, "link deleted")
 }
 
-func editLink(c *gin.Context) {
+func EditLink(c *gin.Context) {
 	var cachedLink models.CachedLink
 	if err := c.ShouldBind(&cachedLink); err != nil {
 		c.String(http.StatusBadRequest, err.Error())

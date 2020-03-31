@@ -3,10 +3,10 @@
 $(function () {
     $("#config_form").on("submit", function (e) {
         e.preventDefault();
-        var username = $("#sign_up_username").val();
-        var password = $("#sign_up_password").val();
-        var confirm_password = $("#sign_up_confirm_password").val();
-        var remember_me = $("#sign_up_remember_me").is(":checked");
+        var username = $("#config_username").val();
+        var password = $("#config_password").val();
+        var confirm_password = $("#config_confirm_password").val();
+        var remember_me = $("#config_remember_me").is(":checked");
         if (password !== confirm_password) {
             alert("Passwords Mismatch");
             return
