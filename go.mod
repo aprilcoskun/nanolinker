@@ -6,7 +6,7 @@ require (
 	github.com/aprilcoskun/sessions v0.0.5
 	github.com/gin-contrib/cors v1.3.1
 	github.com/gin-gonic/gin v1.5.0
-	github.com/gobuffalo/packr/v2 v2.8.0
+	github.com/gobuffalo/packr v1.30.1
 	github.com/jmoiron/sqlx v1.2.0
 	github.com/joho/godotenv v1.3.0
 	github.com/mattn/go-sqlite3 v2.0.3+incompatible

@@ -18,5 +18,9 @@ nanolinker
 **/.DS_Store
 .DS_Store
 .idea
-nanolinker.db
 .env
+
+nanolinker.db
+nanolinker-linux.zip
+nanolinker-mac.zip
+nanolinker-win.zip

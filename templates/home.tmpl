@@ -60,25 +60,16 @@
                     {{end}}
                 </table>
                 {{ .totalCount }} Total Link(s)
-                {{if not eq .pageCount 0 }}
+                {{if eq .pageCount 0 }}
+                {{else}}
                     <div class="ui right floated pagination menu">
-
+                        {{range .pageCount }}
+                            <a class="active item">
+                                {{.}}
+                            </a>
+                        {{end}}
                     </div>
                 {{end}}
-                <div class="ui right floated pagination menu">
-                    <a class="active item">
-                        1
-                    </a>
-                    <a class="item">
-                        2
-                    </a>
-                    <a class="item">
-                        3
-                    </a>
-                    <a class="item">
-                        4
-                    </a>
-                </div>
             </div>
         </div>
     </div>

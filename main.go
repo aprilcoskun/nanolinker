@@ -6,15 +6,15 @@ import (
 	"github.com/aprilcoskun/nanolinker/utils/logger"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"github.com/gobuffalo/packr/v2"
+	"github.com/gobuffalo/packr"
 	_ "github.com/joho/godotenv/autoload"
 	"html/template"
 	"os"
 	"strings"
 )
 
-var templateBox = *packr.New("template", "templates/")
-var publicBox = packr.New("public", "public/")
+var templateBox = packr.NewBox("./templates/")
+var publicBox = packr.NewBox("./public")
 
 func main() {
 	isDev := strings.ToLower(os.Getenv("GO_ENV")) == "dev"
@@ -34,27 +34,27 @@ func main() {
 		r.SetHTMLTemplate(mustLoadBoxedTemplate(templateBox))
 	}
 
-	r.Use(logger.Middleware, cors.Default(), utils.SecurityMiddleWare, utils.GzipMiddleware, utils.SessionMiddleware()).
+	r.Use(logger.Middleware, cors.Default(), utils.SecurityMiddleWare, utils.SessionMiddleware())
 
-		// Web Routes
-		GET("/", routes.RedirectHomePage).
-		GET("/login", routes.LogInPage).
-		GET("/configure", routes.ConfigurationPage).
-		GET("/l/:link", routes.RedirectLink).
+	// Web Routes
+	r.GET("/", routes.RedirectHomePage)
+	r.GET("/login", routes.LogInPage)
+	r.GET("/configure", routes.ConfigurationPage)
+	r.GET("/l/:link", routes.RedirectLink)
 
-		// Static files
-		StaticFS("/public", publicBox).
-		StaticFile("/favicon.ico", "public/favicon.ico")
+	// Static files
+	r.StaticFS("/public", publicBox)
+	r.StaticFile("/favicon.ico", "public/favicon.ico")
 
 	// Api Routes
-	r.Group("/v1").
-		Use(utils.AuthMiddleware).
-		GET("/", routes.HomePage).
-		POST("/login", routes.LogIn).
-		POST("/configure", routes.Configuration).
-		POST("/link", routes.CreateLink).
-		PUT("/link/:id", routes.EditLink).
-		DELETE("/link/:id", routes.DeleteLink)
+	v1 := r.Group("/v1")
+	v1.Use(utils.AuthMiddleware)
+	v1.GET("/", routes.HomePage)
+	v1.POST("/login", routes.LogIn)
+	v1.POST("/configure", routes.Configuration)
+	v1.POST("/link", routes.CreateLink)
+	v1.PUT("/link/:id", routes.EditLink)
+	v1.DELETE("/link/:id", routes.DeleteLink)
 
 	r.NoRoute(routes.RedirectLink)
 
@@ -62,6 +62,7 @@ func main() {
 	if port == "" {
 		port = "8080"
 	}
+
 	logger.Info("Http Server Started at http://127.0.0.1:" + port)
 	logger.Fatal(r.Run())
 }
