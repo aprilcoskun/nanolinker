@@ -17,9 +17,16 @@ func AuthMiddleware(c *gin.Context) {
 	}
 
 	statusCookie, err := c.Cookie("session-status")
+	if !db.IsConfigured() {
+		c.Redirect(http.StatusTemporaryRedirect, "/configure/")
+		c.Abort()
+		return
+
+	}
 	// Check if user exist in session store
-	if err != nil || statusCookie != "valid" || sessions.Default(c).Get("username") == nil || !db.IsConfigured() {
+	if err != nil || statusCookie != "valid" || sessions.Default(c).Get("username") == nil {
 		c.Redirect(http.StatusTemporaryRedirect, "/login/")
+		c.Abort()
 		return
 	}
 

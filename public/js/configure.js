@@ -1,4 +1,5 @@
 "use strict";
+
 //TODO: Custom Errors and Loading Spinner
 $(function () {
     $("#config_form").on("submit", function (e) {

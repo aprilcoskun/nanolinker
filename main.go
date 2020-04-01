@@ -25,10 +25,10 @@ func main() {
 
 	// Init routes
 	r := gin.New()
-	r.SetFuncMap(template.FuncMap{"N": N})
 
 	// Use embedded Templates in Release Mode
 	if isDev {
+		r.SetFuncMap(template.FuncMap{"N": N})
 		r.LoadHTMLGlob("templates/*")
 	} else {
 		r.SetHTMLTemplate(mustLoadBoxedTemplate(templateBox))
@@ -70,7 +70,7 @@ func main() {
 // Embed Template files
 // original source: https://github.com/gobuffalo/packr/issues/16#issuecomment-354905578
 func mustLoadBoxedTemplate(box packr.Box) *template.Template {
-	t := template.New("")
+	t := template.New("").Funcs(template.FuncMap{"N": N})
 	err := box.Walk(func(path string, f packr.File) error {
 		if path == "" {
 			return nil
