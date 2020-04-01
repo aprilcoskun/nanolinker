@@ -72,5 +72,4 @@ func (f *textFormatter) appendKeyValue(b *bytes.Buffer, key string, value interf
 		stringVal = fmt.Sprint(value)
 	}
 	b.WriteString(stringVal)
-
 }

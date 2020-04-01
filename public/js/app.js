@@ -138,7 +138,7 @@ function copyToClipboard() {
 $(function () {
     // Format Dates to Locale Timezone & Format
     $(".created-at").each(function () {
-        $(this).text(new Date(this.innerText).toLocaleString())
+        $(this).text(new Date(this.innerText).toLocaleString());
     });
 
     $("#logout").on('click', function () {

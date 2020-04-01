@@ -63,9 +63,9 @@
                 {{if eq .pageCount 0 }}
                 {{else}}
                     <div class="ui right floated pagination menu">
-                        {{range .pageCount }}
-                            <a class="active item">
-                                {{.}}
+                        {{range $i := N 1 .pageCount}}
+                            <a href="/v1?page={{$i}}" class="{{if eq $.pageNumber $i}}active{{end}} item">
+                                {{$i}}
                             </a>
                         {{end}}
                     </div>
@@ -83,13 +83,13 @@
         </div>
         <div class="actions">
             <button class="ui red basic cancel inverted button"><i class="remove icon"></i>No</button>
-            <button class="ui green ok inverted button" id="delete_button" onclick="deleteRow()"><i
-                        class="checkmark icon"></i>Yes
+            <button class="ui green ok inverted button" id="delete_button" onclick="deleteRow()">
+                <i class="checkmark icon"></i>Yes
             </button>
         </div>
-</div>
-<script src="/public/js/semantic.min.js"></script>
-<script src="/public/js/app.js"></script>
-</body>
-</html>
+    </div>
+    <script src="/public/js/semantic.min.js"></script>
+    <script src="/public/js/app.js"></script>
+    </body>
+    </html>
 {{end}}

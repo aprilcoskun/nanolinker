@@ -4,7 +4,6 @@ import (
 	"github.com/aprilcoskun/nanolinker/routes"
 	"github.com/aprilcoskun/nanolinker/utils"
 	"github.com/aprilcoskun/nanolinker/utils/logger"
-	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/gobuffalo/packr"
 	_ "github.com/joho/godotenv/autoload"
@@ -26,6 +25,7 @@ func main() {
 
 	// Init routes
 	r := gin.New()
+	r.SetFuncMap(template.FuncMap{"N": N})
 
 	// Use embedded Templates in Release Mode
 	if isDev {
@@ -34,7 +34,7 @@ func main() {
 		r.SetHTMLTemplate(mustLoadBoxedTemplate(templateBox))
 	}
 
-	r.Use(logger.Middleware, cors.Default(), utils.SecurityMiddleWare, utils.SessionMiddleware())
+	r.Use(logger.Middleware, utils.SecurityMiddleWare, utils.GzipMiddleware, utils.SessionMiddleware())
 
 	// Web Routes
 	r.GET("/", routes.RedirectHomePage)
@@ -104,4 +104,16 @@ func mustLoadBoxedTemplate(box packr.Box) *template.Template {
 		panic("error loading template")
 	}
 	return t
+}
+
+// Template function for range N times
+func N(start, end int) (stream chan int) {
+	stream = make(chan int)
+	go func() {
+		for i := start; i <= end; i++ {
+			stream <- i
+		}
+		close(stream)
+	}()
+	return
 }

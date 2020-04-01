@@ -15,9 +15,9 @@ func HomePage(c *gin.Context) {
 	offset := 0
 	pageNumber, err := strconv.Atoi(c.Query("page"))
 	if err == nil {
-		offset = pageNumber * limit
+		offset = (pageNumber - 1) * limit
 	} else {
-		pageNumber = 0
+		pageNumber = 1
 	}
 	links, count, err := db.GetLinks(limit, offset)
 	if err != nil {
@@ -27,7 +27,7 @@ func HomePage(c *gin.Context) {
 	}
 
 	if count > limit {
-		pageCount = int(math.Ceil(float64(len(links)) / float64(limit)))
+		pageCount = int(math.Ceil(float64(count) / float64(limit)))
 	}
 
 	c.HTML(http.StatusOK, "home", &gin.H{
