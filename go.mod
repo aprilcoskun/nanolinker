@@ -4,7 +4,7 @@ go 1.14
 
 require (
 	github.com/aprilcoskun/sessions v0.0.5
-	github.com/gin-gonic/gin v1.7.0
+	github.com/gin-gonic/gin v1.7.7
 	github.com/gobuffalo/packr v1.30.1
 	github.com/jmoiron/sqlx v1.2.0
 	github.com/joho/godotenv v1.3.0
