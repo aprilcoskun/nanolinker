@@ -12,6 +12,6 @@ require (
 	github.com/nanmu42/gzip v0.8.0
 	github.com/sirupsen/logrus v1.4.2
 	github.com/teris-io/shortid v0.0.0-20171029131806-771a37caa5cf
-	golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9
+	golang.org/x/crypto v0.1.0
 	google.golang.org/appengine v1.6.7 // indirect
 )
